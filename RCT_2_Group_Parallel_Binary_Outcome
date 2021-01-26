@@ -5,7 +5,7 @@
 # Patients receiving treatment 1 will be assigned 40% probability of death
 # Patients receiving treatment 2 will be assigned 30% probability of death
 # Analysis will be performed using a logistic regression model 
-# We will report the odds ration, 95% confidence interval, and p-value for each simulated trial
+# We will report the odds ratio, 95% confidence interval, and p-value for each simulated trial
 
 # Trial Design Parameters
 nPatients <- 1000 # here is where you specify the number of patients you want included in each RCT 
