@@ -11,8 +11,8 @@
 
 # Trial Design Parameters
 nPatients <- 1000 # here is where you specify the number of patients you want included in each RCT 
-death1 <- 0.4 # here is where you specify the event rate for patients receiveing 'treatment 1' in these trials
-death2 <- 0.3 # here is where you specify the event rate for patients receiveing 'treatment 2' in these trials
+death1 <- 0.4 # here is where you specify the event rate for patients receiving 'treatment 1' in these trials
+death2 <- 0.3 # here is where you specify the event rate for patients receiving 'treatment 2' in these trials
 
 # Simulation Parameters
 nSims <- 1000 # here is where you specify the number of trials that you want to simulate
