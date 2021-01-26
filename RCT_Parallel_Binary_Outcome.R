@@ -28,7 +28,7 @@ set.seed(1) # this sets the random seed for your results to be reproducible
 for(i in 1:nSims){
 
 pid=seq(1, by=1, len=nPatients) # this creates a sequential list of "pid" from 1 to nPatients which may be useful if you want to perform 'interim analysis' later
-treatment=rep(1:2, nPatients/2) # this 
+treatment=rep(1:2, nPatients/2) # this creates a vector of "treatment allocations" which is actually just a sequence alternating between 1 and 2
 
 # worth noting: this allocation sequence should not be used in a real RCT, but for the purpose of these simulations it will work fine.  
 # There are no real patients or clinicians created in these simulations, and therefore no worry about someone guessing the next treatment assignment.
