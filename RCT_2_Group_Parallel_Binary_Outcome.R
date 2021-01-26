@@ -1,11 +1,13 @@
 # RCT-Simulation-v1
 # Introduction to simulation of randomized controlled trials in R
-# This will mimic a 2-group parallel-arm randomized trial using 1:1 allocation of patients to treatment 1 versus treatment 2
+# This code will mimic a 2-group parallel-arm randomized trial using 1:1 allocation of patients to treatment 1 versus treatment 2
 # For this example, we will use a binary outcome of "death"
-# Patients receiving treatment 1 will be assigned 40% probability of death
-# Patients receiving treatment 2 will be assigned 30% probability of death
+# Patients receiving treatment 1 will have 40% probability of death
+# Patients receiving treatment 2 will have 30% probability of death
 # Analysis will be performed using a logistic regression model 
-# We will report the odds ratio, 95% confidence interval, and p-value for each simulated trial
+# We will run 1000 simulated RCT's and report the odds ratio, 95% confidence interval, and p-value for each simulated trial
+# The "true" treatment effect for a treatment that reduces probability of outcome from 40% to 30% is about OR = 0.642
+# The power of a trial with N=1000 patients and exactly 1:1 allocation under these assumptions is about 91-92%
 
 # Trial Design Parameters
 nPatients <- 1000 # here is where you specify the number of patients you want included in each RCT 
