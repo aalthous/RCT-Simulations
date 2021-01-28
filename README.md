@@ -5,8 +5,8 @@ In this repository, I will provide base R code for simulations of randomized con
 I will begin with fairly straightforward examples, though over time these posts may expand to more sophisticated code as time and interest allows.  For the first few examples I'm trying to minimize the need for advanced R knowledge (only installing packages if absolutely needed) in an effort to avoid hurdles for newer R users, and I'm annotating code as much as practical, but some basic knowledge of R (as well as general knowledge of RCT's and commonly performed statistical analyses) will facilitate your efforts to use the code stored here.
 
 1. RCT_Parallel_Binary_Outcome provides code to simulate two-group parallel-arm randomized trials with a binary outcome.
-2. RCT_Parallel_Time_To_Event_Outcome provides code to simulate two-group parallel-arm randomized trials with a time-to-event outcome.
-3. (planned) RCT_Parallel_Binary_Outcome_With_Interim_Efficacy
+2. RCT_Parallel_Binary_Outcome_With_Interim_Efficacy provides code to simulate two-group parallel-arm randomized trials with a binary outcome.  The example code uses an O'Brien-Fleming approach with one interim analysis taking place at 50% observed information, using a threshold of p<0.0054 to stop at the interim analysis, otherwise using a threshold of p<0.0492 to declare success at the final analysis.
+3. RCT_Parallel_Time_To_Event_Outcome provides code to simulate two-group parallel-arm randomized trials with a time-to-event outcome.
 4. (planned) RCT_Parallel_Time_To_Event_Outcome_With_Interim_Efficacy
 
 More instructions will follow.
