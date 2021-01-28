@@ -79,6 +79,7 @@ weibull_shape1 <- 0.5
 weibull_shape2 <- 0.5
 weibull_scale1 <- 1200
 weibull_scale2 <- 2000
+final_analysis_date <- 1800 # Final "analysis date" (for this example, t=1800 means dataset is frozen 5 years after trial begins)
 
 # Simulation Parameters
 nSims <- 1000 # here is where you specify the number of trials that you want to simulate
