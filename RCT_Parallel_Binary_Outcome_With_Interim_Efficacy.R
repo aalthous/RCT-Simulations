@@ -1,14 +1,14 @@
 # RCT-Simulation-v1
 # Introduction to simulation of randomized controlled trials in R
 # This code will mimic a 2-group parallel-arm randomized trial using 1:1 allocation of patients to treatment 1 versus treatment 2
-# In this example, we are now adding code that mimics performing one interim analysis with an efficacy stopping rule
-# The interim strategy in the code shown here mimics an O'Brien-Fleming rule with one interim analysis that takes place at 50% observed information
 # For this example, we will use a binary outcome of "death"
 # Patients receiving treatment 1 will have 40% probability of death
 # Patients receiving treatment 2 will have 30% probability of death
-# Analysis will be performed using a logistic regression model 
+# Analysis will be performed using a logistic regression model for interim and final analysis
 # We will run 1000 simulated RCT's and report the odds ratio, 95% confidence interval, and p-value for each simulated trial at interim and final analysis
 # The "true" treatment effect for a treatment that reduces probability of outcome from 40% to 30% is about OR = 0.642
+# In this example, we are now adding code that mimics performing one interim analysis with an efficacy stopping rule
+# The interim strategy in the code shown here mimics an O'Brien-Fleming rule with one interim analysis that takes place at 50% observed information
 # The power of a trial with N=1000 patients and exactly 1:1 allocation under these assumptions with this design is about 91-92%
 
 # Trial Design Parameters
@@ -21,8 +21,8 @@ final_efficacy_threshold <- 0.0492 # here is where you specify the p-value for d
 # NOTE: 0.0054 and 0.0492 are the thresholds for an O'Brien Fleming with one interim analysis that takes place at 50% of the observed outcome data
 # If you want to fiddle with different stopping thresholds, I do suggest reading up on different approaches to alpha spending, but the simulations here
 #    will be interesting for you to play with if you want to see how operating characteristics (type 1 & type 2 error) change with different thresholds
-death1 <- 0.4 # here is where you specify the event rate for patients receiveing 'treatment 1' in these trials
-death2 <- 0.3 # here is where you specify the event rate for patients receiveing 'treatment 2' in these trials
+death1 <- 0.4 # here is where you specify the event rate for patients receiving 'treatment 1' in these trials
+death2 <- 0.3 # here is where you specify the event rate for patients receiving 'treatment 2' in these trials
 # NOTE: if you want to estimate "type 1 error" under different stopping rules, make death = in the two treatment arms (e.g. no treatment effect)
 #    this can be useful to get across that type 1 error increases if you take multiple looks at data using p<0.05 without appropriately accounting 
 #    for the multiple looks at the data
@@ -54,15 +54,13 @@ treatment=rep(1:2, nPatients/2) # this creates a vector of "treatment allocation
 # If you prefer that your simulations actually use “randomized” allocation, you can do this instead:
 # treatment=1+rbinom(nPatients, 1, 0.5) # this randomly assigns each new patient to receive treatment 1 or 2 with 50% probability each time
 # The reason I prefer the first of the two for simulation is that it maintains even allocation in the number of patients receiving each treatment 
-# (of course, with a wee bit more work one can actually create blocked randomization sequence, but I’m trying to keep this simple for newbies)
-# (for those interested in going one step further, the "blockrand" package can be used to generate this, may include in future posts)
-# The "simple randomization" example will have *slightly* lower power due to the allowance for an imbalanced number of patients; 
-# Using "exactly-equal-allocation" means we will be *slightly* over-estimating the trial power by assuming exactly equal allocation
+# (of course, with a wee bit more work one can actually create blocked randomization sequence, but I’m trying to keep this thread simple for newbies)
+# (for those interested in going one step further, the "blockrand" package can be used to generate this, may include in future post)
+# The "simple randomization" example will have slightly lower power due to the allowance for an imbalanced number of patients; 
+# Using "exactly-equal-allocation" means we will be slightly over-estimating the trial power by assuming exactly equal allocation
 # when stratified and/or blocked randomization could allow slightly unequal allocations to occur, e.g. "498 vs 502" patients
 # Constraining to "exactly equal" is close enough in practice to results with blocked randomization that it's my preference
-# Also worth noting, most people doing conventional power calculations (without simulation) assume exactly equal allocation
-# without accounting for the slight imbalances that may occur in truly 'random' allocation sequences
-  
+
 deathprob <- numeric(nPatients) # this creates an empty vector which we will use to assign death probability for each patient
 deathprob[treatment==1]=death1 # this assigns the probability of death for patients receiving 'treatment 1' to be 'death1'
 deathprob[treatment==2]=death2 # this assigns the probability of death for patients receiving 'treatment 2' to be 'death2'
