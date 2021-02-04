@@ -35,12 +35,14 @@ treatment=rep(1:2, nPatients/2) # this creates a vector of "treatment allocation
 # If you prefer that your simulations actually use “randomized” allocation, you can do this instead:
 # treatment=1+rbinom(nPatients, 1, 0.5) # this randomly assigns each new patient to receive treatment 1 or 2 with 50% probability each time
 # The reason I prefer the first of the two for simulation is that it maintains even allocation in the number of patients receiving each treatment 
-# (of course, with a wee bit more work one can actually create blocked randomization sequence, but I’m trying to keep this thread simple for newbies)
-# (for those interested in going one step further, the "blockrand" package can be used to generate this, may include in future post)
-# The "simple randomization" example will have slightly lower power due to the allowance for an imbalanced number of patients; 
-# Using "exactly-equal-allocation" means we will be slightly over-estimating the trial power by assuming exactly equal allocation
+# (of course, with a wee bit more work one can actually create blocked randomization sequence, but I’m trying to keep this simple for newbies)
+# (for those interested in going one step further, the "blockrand" package can be used to generate this, may include in future posts)
+# The "simple randomization" example will have *slightly* lower power due to the allowance for an imbalanced number of patients; 
+# Using "exactly-equal-allocation" means we will be *slightly* over-estimating the trial power by assuming exactly equal allocation
 # when stratified and/or blocked randomization could allow slightly unequal allocations to occur, e.g. "498 vs 502" patients
 # Constraining to "exactly equal" is close enough in practice to results with blocked randomization that it's my preference
+# Also worth noting, most people doing conventional power calculations (without simulation) assume exactly equal allocation
+# without accounting for the slight imbalances that may occur in truly 'random' allocation sequences
 
 deathprob <- numeric(nPatients) # this creates an empty vector which we will use to assign death probability for each patient
 deathprob[treatment==1]=death1 # this assigns the probability of death for patients receiving 'treatment 1' to be 'death1'
