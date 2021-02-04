@@ -102,12 +102,14 @@ treatment=rep(1:2, nPerGroup) # this creates a vector of "treatment allocations"
 # If you prefer that your simulations actually use “randomized” allocation, you can do this instead:
 # treatment=1+rbinom(nPatients, 1, 0.5) # this randomly assigns each new patient to receive treatment 1 or 2 with 50% probability each time
 # The reason I prefer the first of the two for simulation is that it maintains even allocation in the number of patients receiving each treatment 
-# (of course, with a wee bit more work one can actually create blocked randomization sequence, but I’m trying to keep this thread simple for newbies)
-# (for those interested in going one step further, the "blockrand" package can be used to generate this, may include in future post)
-# The "simple randomization" example will have slightly lower power due to the allowance for an imbalanced number of patients; 
-# Using "exactly-equal-allocation" means we will be slightly over-estimating the trial power by assuming exactly equal allocation
+# (of course, with a wee bit more work one can actually create blocked randomization sequence, but I’m trying to keep this simple for newbies)
+# (for those interested in going one step further, the "blockrand" package can be used to generate this, may include in future posts)
+# The "simple randomization" example will have *slightly* lower power due to the allowance for an imbalanced number of patients; 
+# Using "exactly-equal-allocation" means we will be *slightly* over-estimating the trial power by assuming exactly equal allocation
 # when stratified and/or blocked randomization could allow slightly unequal allocations to occur, e.g. "498 vs 502" patients
 # Constraining to "exactly equal" is close enough in practice to results with blocked randomization that it's my preference
+# Also worth noting, most people doing conventional power calculations (without simulation) assume exactly equal allocation
+# without accounting for the slight imbalances that may occur in truly 'random' allocation sequences
 
 recruitdate=floor((pid+1)/2) # create recruitment date; this mimics 2 patients recruited daily (a trial of n=500 per group will reach target in 500 days)
 survivaltime <- numeric(nPerGroup*2) # create empty vector which will hold survival times
