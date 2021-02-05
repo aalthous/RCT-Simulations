@@ -1,5 +1,4 @@
 # RCT-Simulation-v1
-# Introduction to simulation of randomized controlled trials in R
 # This code will mimic a 2-group parallel-arm randomized trial using 1:1 allocation of patients to treatment 1 versus treatment 2
 # For this example, we will use a binary outcome of "death"
 # Patients receiving treatment 1 will have 40% probability of death
