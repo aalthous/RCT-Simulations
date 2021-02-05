@@ -1,5 +1,4 @@
 # RCT-Simulation-v1
-# Introduction to simulation of randomized controlled trials in R
 # This code will mimic a 2-group parallel-arm randomized trial using 1:1 allocation of patients to treatment 1 versus treatment 2
 # For this example, we will use a time to event outcome
 # Patients receiving treatment 1 will have a survival time drawn from Weibull distribution with shape parameter 0.5 and scale parameter 1200
@@ -143,5 +142,4 @@ success[i]=ifelse(hr[i]<1 & pvalue[i]<0.05, 1, 0) # this creates a flag for whet
 simulation_results <- data.frame(cbind(trialnum, hr, lcl, ucl, pvalue, success)) # this puts all of the saved results into one data frame for easy viewing
 head(simulation_results , n=10) # this lets you take a look at the first 10 simulation results to confirm all seems to make sense
 table(success) # this provides a table of the number of simulated trials which concluded that there was a treatment effect
-
 
