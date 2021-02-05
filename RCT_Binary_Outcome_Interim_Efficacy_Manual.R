@@ -1,5 +1,4 @@
 # RCT-Simulation-v1
-# Introduction to simulation of randomized controlled trials in R
 # This code will mimic a 2-group parallel-arm randomized trial using 1:1 allocation of patients to treatment 1 versus treatment 2
 # For this example, we will use a binary outcome of "death"
 # Patients receiving treatment 1 will have 40% probability of death
@@ -7,6 +6,7 @@
 # Analysis will be performed using a logistic regression model for interim and final analysis
 # We will run 1000 simulated RCT's and report the odds ratio, 95% confidence interval, and p-value for each simulated trial at interim and final analysis
 # The "true" treatment effect for a treatment that reduces probability of outcome from 40% to 30% is about OR = 0.642
+# The power of a trial with N=1000 patients and exactly 1:1 allocation under these assumptions is about 91-92%
 # In this example, we are now adding code that mimics performing one interim analysis with an efficacy stopping rule
 # The interim strategy in the code shown here mimics an O'Brien-Fleming rule with one interim analysis that takes place at 50% observed information
 # The power of a trial with N=1000 patients and exactly 1:1 allocation under these assumptions with this design is about 91-92%
@@ -21,6 +21,7 @@ final_efficacy_threshold <- 0.0492 # here is where you specify the p-value for d
 # NOTE: 0.0054 and 0.0492 are the thresholds for an O'Brien Fleming with one interim analysis that takes place at 50% of the observed outcome data
 # If you want to fiddle with different stopping thresholds, I do suggest reading up on different approaches to alpha spending, but the simulations here
 #    will be interesting for you to play with if you want to see how operating characteristics (type 1 & type 2 error) change with different thresholds
+#    I will explore this a bit more in a subsequent post that uses the "rpact" package to compute the efficacy stopping thresholds
 death1 <- 0.4 # here is where you specify the event rate for patients receiving 'treatment 1' in these trials
 death2 <- 0.3 # here is where you specify the event rate for patients receiving 'treatment 2' in these trials
 # NOTE: if you want to estimate "type 1 error" under different stopping rules, make death = in the two treatment arms (e.g. no treatment effect)
