@@ -1,34 +1,34 @@
 # Trial Design Parameters - Part 1
-# Here we will specify the basics: total N patients to enroll, and death rate for each treatment arm
+# Here we will specify the basics: maximum total number of patients to enroll and event rate for each treatment arm
 nPatients <- 1000 # here is where you specify the planned max number of patients you want included in each RCT 
 death1 <- 0.4 # here is where you specify the event rate for patients receiving 'treatment 1' in these trials
 death2 <- 0.3 # here is where you specify the event rate for patients receiving 'treatment 2' in these trials
-# NOTE: if you want to confirm "type 1 error" under different stopping rules, make death = in the two treatment arms (e.g. no treatment effect)
 # I have set this one up to test the power for a treatment that would reduce mortality from 40% in control group (1) to 30% in treatment group (2)
+# If one wants to estimate the "type 1 error" under different interim approaches, simply make 'death1' and 'death2' the same (no treatment effect)
 
 # Trial Design Parameters - Part 2
 # Here we will define the interim analysis strategy and stopping rules
-# For this trial we will include provisions for efficacy stopping only (no pre-specified futility stopping)
-# We will use the rpact package to compute the stopping/success thresholds at the interim and final analysis 
+# For this trial we will include provisions for efficacy stopping only (no futility stopping boundaries)
+# We will use the rpact package to compute the stopping/success thresholds at interim and final analysis 
 # install.packages("rpact")
-# library(rpact)
-nLooks<-4 # here is where you put the number of looks that will take place (INCLUDING the final analysis)
-analyses_scheduled<-(c(0.25, 0.50, 0.75, 1))
+library(rpact)
+nLooks<-3 # here is where you put the number of looks that will take place (INCLUDING the final analysis)
+analyses_scheduled<-(c(0.50, 0.75, 1)) # here is where you list the information fraction (e.g. here 50%, 75% and 100% information)
 efficacy_thresholds<-numeric(nLooks)
 
 design <- getDesignGroupSequential(sided=1, alpha=0.05, informationRates=analyses_scheduled, typeOfDesign = "asOF")
 for(j in 1:nLooks){
 efficacy_thresholds[j] = design$stageLevels[j]
 }
-analyses_scheduled
 analyses_nPatients <- analyses_scheduled*nPatients
+
+analyses_scheduled
 analyses_nPatients
 efficacy_thresholds
 
 # Simulation Parameters
 nSims <- 1000
 trialnum <- numeric(nSims)
-
 or <- data.frame(matrix(ncol = nLooks, nrow = nSims))
 lcl <- data.frame(matrix(ncol = nLooks, nrow = nSims))
 ucl <- data.frame(matrix(ncol = nLooks, nrow = nSims))
@@ -36,11 +36,11 @@ pvalue <- data.frame(matrix(ncol = nLooks, nrow = nSims))
 success <- data.frame(matrix(ncol = nLooks, nrow = nSims))
 
 #provide column names
-colnames(or) <- c('or_1', 'or_2', 'or_3', 'or_4')
-colnames(lcl) <- c('lcl_1', 'lcl_2', 'lcl_3', 'lcl_4')
-colnames(ucl) <- c('ucl_1', 'ucl_2', 'ucl_3', 'ucl_4')
-colnames(pvalue) <- c('pvalue_1', 'pvalue_2', 'pvalue_3', 'pvalue_4')
-colnames(success) <- c('success_1', 'success_2', 'success_3', 'success_4')
+colnames(or) <- sprintf("or_%d", (1:nLooks))
+colnames(lcl) <- sprintf("lcl_%d", (1:nLooks))
+colnames(ucl) <- sprintf("ucl_%d", (1:nLooks))
+colnames(pvalue) <- sprintf("pvalue_%d", (1:nLooks))
+colnames(success) <- sprintf("success_%d", (1:nLooks))
 
 overall_success <- numeric(nSims)
 
@@ -84,7 +84,6 @@ simulation_results <- data.frame(cbind(trialnum,
 or[1], lcl[1], ucl[1], pvalue[1], success[1],
 or[2], lcl[2], ucl[2], pvalue[2], success[2],
 or[3], lcl[3], ucl[3], pvalue[3], success[3],
-or[4], lcl[4], ucl[4], pvalue[4], success[4],
 overall_success))
 head(simulation_results, n=10)
 
@@ -92,6 +91,3 @@ table(overall_success)
 table(simulation_results$success_1, overall_success)
 table(simulation_results$success_2, overall_success)
 table(simulation_results$success_3, overall_success)
-table(simulation_results$success_4, overall_success)
-
-
