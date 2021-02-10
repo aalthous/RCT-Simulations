@@ -8,6 +8,6 @@ I will begin with fairly straightforward examples, though over time these posts 
 2. RCT_Binary_Outcome_Interim_Efficacy_Manual provides code to simulate two-group parallel-arm randomized trials with a binary outcome, this time adding one planned interim analysis with an efficacy stopping rule.  The example provided uses the O'Brien-Fleming approach with one interim analysis planned at 50% observed information, using a threshold of p<0.0054 to stop for efficacy at the interim analysis, otherwise using a threshold of p<0.0492 to declare efficacy at the final analysis.
 3. RCT_Binary_Outcome_Interim_Efficacy_rpact (work in progress)
 4. RCT_Time_To_Event_Outcome provides code to simulate two-group parallel-arm randomized trials with a time-to-event outcome.
-5. (planned) RCT_Time_To_Event_Outcome_Interim_Efficacy
+5. RCT_Time_To_Event_Outcome_Interim_Efficacy (work in progress)
 
 More instructions will follow.
