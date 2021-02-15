@@ -1,5 +1,6 @@
 set.seed(1)
 library(survival) 
+library(rpact)
 nPerGroup <- 500 
 recruitPerDay <- 1
 weibull_shape1 <- 0.5 
@@ -51,7 +52,7 @@ death_final[deathdate<final_analysis_date]=1
 death_final[deathdate>=final_analysis_date]=0
 
 deathtime_final<- 
-ifelse(death == 1,
+ifelse(death_final == 1,
 deathdate-recruitdate,
 final_analysis_date-recruitdate) 
 
@@ -62,7 +63,7 @@ sampletrial <- data.frame(cbind(pid, treatment, recruitdate, death1, deathtime1,
 KM_final <- survfit(Surv(deathtime_final, death_final) ~ treatment, type="kaplan-meier", conf.type=c("none"), data=sampletrial)
 plot(KM_final, main=expression(paste("Kaplan-Meier Estimate")), xlab="Time (Years)", ylab="Survival", lwd=2, col=1:2)
 
-coxmodel=coxph(Surv(deathtime, death) ~ treatment, data=sampletrial)
+coxmodel=coxph(Surv(deathtime_final, death_final) ~ treatment, data=sampletrial)
 summary(coxmodel)
 
 nLooks<-4
@@ -136,7 +137,7 @@ death_final[deathdate<final_analysis_date]=1
 death_final[deathdate>=final_analysis_date]=0
 
 deathtime_final<- 
-ifelse(death == 1,
+ifelse(death_final == 1,
 deathdate-recruitdate,
 final_analysis_date-recruitdate) 
 
@@ -170,7 +171,7 @@ ucl[i,3]=exp(summary(coxmodel3)$coefficients[1]+1.96*summary(coxmodel3)$coeffici
 pvalue[i,3]=summary(coxmodel3)$coefficients[5] 
 success[i,3]=ifelse(hr[i,3]<1 & pvalue[i,3]<efficacy_thresholds[3], 1, 0) 
 
-coxmodel_final=coxph(Surv(deathtime3, death3) ~ treatment, data=trialdata)
+coxmodel_final=coxph(Surv(deathtime_final, death_final) ~ treatment, data=trialdata)
 hr[i,4]=exp(summary(coxmodel_final)$coefficients[1])
 lcl[i,4]=exp(summary(coxmodel_final)$coefficients[1]-1.96*summary(coxmodel_final)$coefficients[3]) 
 ucl[i,4]=exp(summary(coxmodel_final)$coefficients[1]+1.96*summary(coxmodel_final)$coefficients[3]) 
