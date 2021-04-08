@@ -60,7 +60,7 @@ hr_success[i]<-ifelse(hr[i]<1 & hr_pvalue[i] < 0.05, 1, 0)
 
 # Win Ratio for Death & HFH
 Setup <- treatment ~ tte(deathtime, status="death") + tte(hfhosptime, status="hfhosp")
-BT <- BuyseTest(Setup, data=sampletrial)
+BT <- BuyseTest(Setup, data=sampletrial, trace=0)
 winratio<-summary(BT, statistic="WinRatio", print=FALSE)
 wr[i]<-winratio$table.print$Delta[2]
 wr_lcl[i]<-winratio$table$CIinf.Delta[3]
