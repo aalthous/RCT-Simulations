@@ -10,6 +10,6 @@ I will begin with fairly straightforward examples, though over time these posts 
 4. RCT_Time_To_Event_Outcome provides code to simulate two-group parallel-arm randomized trials with a time-to-event outcome.
 5. RCT_Time_To_Event_Outcome_Interim_Efficacy (work in progress)
 6. RCT_Time_To_Event_Outcome_RMST_Noninferiority (work in progress)
-7. RCT_Time_To_Event_Outcome_WinRatio (work in progress)
+7. RCT_WinRatio_Competing_Events (work in progress)
 
 More instructions will follow.
