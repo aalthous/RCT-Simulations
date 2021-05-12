@@ -126,21 +126,24 @@ sampletrial=na.omit(FinalSetup8)
   lm2=anova(lm)
   ICC[i]=(lm2[1,2])/(lm2[1,2]+lm2[2,2])
 
-  model = lmer(collaboRATE_fu ~ Site_Assign + collaboRATE_bl + (1|Subject), data = sampletrial, REML=TRUE)
+  model = suppressMessages(lmer(collaboRATE_fu ~ Site_Assign + collaboRATE_bl + (1|Subject), data = sampletrial, REML=FALSE))
+  model <- update(model, control=lmerControl(check.rankX="silent.drop.cols"))
   b_1[i]=(summary(model)$coefficients[2])
   lcl_1[i]=(summary(model)$coefficients[2]-1.96*summary(model)$coefficients[5])  
   ucl_1[i]=(summary(model)$coefficients[2]+1.96*summary(model)$coefficients[5])
   pval_1[i]=summary(model)$coefficients[14]
   succ_1[i]=ifelse(lcl_1[i]>0, 1, 0)
 
-  model2 = lmer(collaboRATE_fu ~ Site_Assign + SiteAsFactor + collaboRATE_bl + (1|Subject), data = sampletrial, REML=TRUE)
+  model2 = suppressMessages(lmer(collaboRATE_fu ~ Site_Assign + SiteAsFactor + collaboRATE_bl + (1|Subject), data = sampletrial, REML=FALSE))
+  model2 <- update(model2, control=lmerControl(check.rankX="silent.drop.cols"))
   b_2[i]=(summary(model2)$coefficients[2])
   lcl_2[i]=(summary(model2)$coefficients[2]-1.96*summary(model2)$coefficients[11])
   ucl_2[i]=(summary(model2)$coefficients[2]+1.96*summary(model2)$coefficients[11])
   pval_2[i]=summary(model2)$coefficients[38]
   succ_2[i]=ifelse(lcl_2[i]>0, 1, 0)
 
-  model3 = lmer(collaboRATE_fu ~ Site_Assign  + collaboRATE_bl + (1|Site/Subject), data = sampletrial, REML=TRUE)
+  model3 = suppressMessages(lmer(collaboRATE_fu ~ Site_Assign  + collaboRATE_bl + (1|Site/Subject), data = sampletrial, REML=FALSE))
+  model3 <- update(model3, control=lmerControl(check.rankX="silent.drop.cols"))
   b_3[i]=(summary(model3)$coefficients[2])
   lcl_3[i]=(summary(model3)$coefficients[2]-1.96*summary(model3)$coefficients[5])
   ucl_3[i]=(summary(model3)$coefficients[2]+1.96*summary(model3)$coefficients[5])
