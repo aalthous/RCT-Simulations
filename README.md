@@ -1,6 +1,6 @@
-# RCT-Simulation-v1
+# RCT Simulations
 
-In this repository, I will provide base R code for simulations of randomized controlled trials.  
+In this repository, I will provide base R scripts for simulations of randomized controlled trials.  
 
 I will begin with fairly straightforward examples, though over time these posts may expand to more sophisticated code as time and interest allows.  At least for now, I'm trying to minimize the need for advanced R knowledge (only installing packages if absolutely needed) to minimize hurdles for newer R users, and I'm annotating code as much as practical, but some basic knowledge of R (as well as general knowledge of RCT's and commonly performed statistical analyses) will facilitate your efforts to use the code stored here.
 
@@ -12,4 +12,4 @@ I will begin with fairly straightforward examples, though over time these posts 
 6. RCT_Time_To_Event_Outcome_RMST_Noninferiority (work in progress)
 7. RCT_WinRatio_Competing_Events (work in progress)
 
-More instructions will follow.
+More instructions will follow as I add more scripts.
