@@ -61,10 +61,10 @@ trialdata=data.frame(cbind(pid, treatment, death))
 for(j in 1:nLooks){
 analysisdata <- subset(trialdata, pid<=analyses_nPatients[j])
 model <- glm(death ~ treatment, family=binomial(link='logit'), data=analysisdata)
-or[i,j]=exp(summary(model)$coefficients[2])
-lcl[i,j]=exp(summary(model)$coefficients[2] - 1.96 * summary(model)$coefficients[4])
-ucl[i,j]=exp(summary(model)$coefficients[2] + 1.96 * summary(model)$coefficients[4]) 
-pvalue[i,j]=summary(model)$coefficients[8]
+or[i,j]=round(exp(summary(model)$coefficients[2]), digits=2)
+lcl[i,j]=round(exp(summary(model)$coefficients[2] - 1.96 * summary(model)$coefficients[4]), digits=2)
+ucl[i,j]=round(exp(summary(model)$coefficients[2] + 1.96 * summary(model)$coefficients[4]), digits=2)
+pvalue[i,j]=round(summary(model)$coefficients[8], digits=4)
 success[i,j]=ifelse(or[i,j]<1 & pvalue[i,j]<efficacy_thresholds[j], 1, 0)
 }
 
