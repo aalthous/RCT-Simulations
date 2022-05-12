@@ -1,8 +1,8 @@
-# This code will mimic a 2-group parallel-arm randomized trial using 1:1 allocation of patients to treatment 1 versus treatment 2
+# This code will mimic a 2-group parallel-arm randomized trial using 1:1 allocation of patients to treatment 0 ("control") versus treatment 1 ("treatment")
 # For this example, we will use a time to event outcome
-# Patients receiving treatment 1 will have a survival time drawn from Weibull distribution with shape parameter 0.5 and scale parameter 1200
+# Patients receiving treatment 0 will have a survival time drawn from Weibull distribution with shape parameter 0.5 and scale parameter 1200
 # This corresponds to approximately 70.6% of patients experiencing the event by t=1800 (5 years) from that patient's date of randomization
-# Patients receiving treatment 2 will have a survival time drawn from Weibull distribution with shape parameter 0.5 and scale parameter 2000
+# Patients receiving treatment 1 will have a survival time drawn from Weibull distribution with shape parameter 0.5 and scale parameter 2000
 # This corresponds to approximately 61.3% of patients experiencing the event by t=1800 (5 years) from that patient's date of randomization
 # There are also steps baked in below that simulate pace of recruitment and censoring of patients "still alive" at designated end of trial 
 # In this example, I am *ending* the trial at t=1800 (5 years) from the start of the trial, which means the longest possible follow-up time
@@ -24,10 +24,10 @@
 set.seed(1)
 library(survival) # Sorry, this time you have to load at least one package; no getting around it
 nPerGroup <- 500 # Number of patients per treatment group
-weibull_shape1 <- 0.5 # Shape parameter for Weibull in treatment group 1
-weibull_shape2 <- 0.5 # Shape parameter for Weibull in treatment group 2
-weibull_scale1 <- 1200 # Scale parameter for Weibull in treatment group 1
-weibull_scale2 <- 2000  # Scale parameter for Weibull in treatment group 2
+weibull_shape0 <- 0.5 # Shape parameter for Weibull in treatment group 1
+weibull_shape1 <- 0.5 # Shape parameter for Weibull in treatment group 2
+weibull_scale0 <- 1200 # Scale parameter for Weibull in treatment group 1
+weibull_scale1 <- 2000  # Scale parameter for Weibull in treatment group 2
 final_analysis_date <- 1800 # Final "analysis date" (for this example, t=1800 means dataset is frozen 5 years after trial begins)
 
 #Create One Sample Trial Dataset
@@ -35,8 +35,8 @@ pid=seq(1, by=1, len=nPerGroup*2) # this creates a sequential list of "pid" from
 treatment=rep(1:2, nPerGroup) # this creates a vector of "treatment allocations" which is actually just a sequence alternating between 1 and 2
 recruitdate=floor((pid+1)/2) # create recruitment date; this mimics 2 patients recruited daily (a trial of n=500 per group will reach target in 500 days)
 survivaltime <- numeric(nPerGroup*2) # create empty vector which will hold survival times
+survivaltime[treatment==0] <- rweibull(nPerGroup, weibull_shape0, weibull_scale0) # simulated survival times from Weibull distribution for treatment 0
 survivaltime[treatment==1] <- rweibull(nPerGroup, weibull_shape1, weibull_scale1) # simulated survival times from Weibull distribution for treatment 1
-survivaltime[treatment==2] <- rweibull(nPerGroup, weibull_shape2, weibull_scale2) # simulated survival times from Weibull distribution for treatment 2
 sampletrial=data.frame(cbind(pid, treatment, recruitdate, survivaltime)) # merge patient id, treatment allocation, recruit date, and simulated survival time
 head(sampletrial, n=10) # take a look at this to see what we've created so far
 
@@ -73,10 +73,10 @@ summary(coxmodel)
 
 # Trial Design Parameters
 nPerGroup <- 500
+weibull_shape0 <- 0.5
 weibull_shape1 <- 0.5
-weibull_shape2 <- 0.5
-weibull_scale1 <- 1200
-weibull_scale2 <- 2000
+weibull_scale0 <- 1200
+weibull_scale1 <- 2000
 final_analysis_date <- 1800 # Final "analysis date" (for this example, t=1800 means dataset is frozen 5 years after trial begins)
 
 # Simulation Parameters
@@ -93,12 +93,12 @@ set.seed(1) # this sets the random seed for your results to be reproducible
 for(i in 1:nSims){
 
 pid=seq(1, by=1, len=nPerGroup*2) # this creates a sequential list of "pid" from 1 to nPatients which may be useful if you want to perform 'interim analysis' later
-treatment=rep(1:2, nPerGroup) # this creates a vector of "treatment allocations" which is actually just a sequence alternating between 1 and 2
+treatment=rep(0:1, nPerGroup) # this creates a vector of "treatment allocations" which is actually just a sequence alternating between 0 and 1
 
 # worth noting: this allocation sequence should not be used in a real RCT, but for the purpose of these simulations it will work fine.  
 # There are no real patients or clinicians created in these simulations, and therefore no worry about someone guessing the next treatment assignment.
 # If you prefer that your simulations actually use “randomized” allocation, you can do this instead:
-# treatment=1+rbinom(nPatients, 1, 0.5) # this randomly assigns each new patient to receive treatment 1 or 2 with 50% probability each time
+# treatment=rbinom(nPatients, 1, 0.5) # this randomly assigns each new patient to receive treatment 0 or 1 with 50% probability each time
 # The reason I prefer the first of the two for simulation is that it maintains even allocation in the number of patients receiving each treatment 
 # (of course, with a wee bit more work one can actually create blocked randomization sequence, but I’m trying to keep this simple for newbies)
 # (for those interested in going one step further, the "blockrand" package can be used to generate this, may include in future posts)
@@ -111,8 +111,8 @@ treatment=rep(1:2, nPerGroup) # this creates a vector of "treatment allocations"
 
 recruitdate=floor((pid+1)/2) # create recruitment date; this mimics 2 patients recruited daily (a trial of n=500 per group will reach target in 500 days)
 survivaltime <- numeric(nPerGroup*2) # create empty vector which will hold survival times
+survivaltime[treatment==0] <- rweibull(nPerGroup, weibull_shape0, weibull_scale0) # simulated survival times from Weibull distribution for treatment 0
 survivaltime[treatment==1] <- rweibull(nPerGroup, weibull_shape1, weibull_scale1) # simulated survival times from Weibull distribution for treatment 1
-survivaltime[treatment==2] <- rweibull(nPerGroup, weibull_shape2, weibull_scale2) # simulated survival times from Weibull distribution for treatment 2
 trialdata=data.frame(cbind(pid, treatment, recruitdate, survivaltime)) # merge patient id, treatment allocation, recruit date, and simulated survival time
 
 # Create Indicator Variables For Final Analysis
