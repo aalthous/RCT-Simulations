@@ -9,8 +9,8 @@
 
 # Trial Design Parameters
 nPatients <- 1000 # here is where you specify the number of patients you want included in each RCT 
-death1 <- 0.4 # here is where you specify the event rate for patients receiving 'treatment 1' in these trials
-death2 <- 0.3 # here is where you specify the event rate for patients receiving 'treatment 2' in these trials
+death0 <- 0.4 # here is where you specify the event rate for patients receiving 'treatment 1' in these trials
+death1 <- 0.3 # here is where you specify the event rate for patients receiving 'treatment 2' in these trials
 
 # Simulation Parameters
 nSims <- 1000 # here is where you specify the number of trials that you want to simulate
@@ -26,7 +26,7 @@ set.seed(1) # this sets the random seed for your results to be reproducible
 for(i in 1:nSims){
 
 pid=seq(1, by=1, len=nPatients) # this creates a sequential list of "pid" from 1 to nPatients which may be useful if you want to perform 'interim analysis' later
-treatment=rep(1:2, nPatients/2) # this creates a vector of "treatment allocations" which is actually just a sequence alternating between 1 and 2
+treatment=rep(0:1, nPatients/2) # this creates a vector of "treatment allocations" which is actually just a sequence alternating between 1 and 2
 
 # worth noting: this allocation sequence should not be used in a real RCT, but for the purpose of these simulations it will work fine.  
 # There are no real patients or clinicians created in these simulations, and therefore no worry about someone guessing the next treatment assignment.
@@ -43,8 +43,8 @@ treatment=rep(1:2, nPatients/2) # this creates a vector of "treatment allocation
 # without accounting for the slight imbalances that may occur in truly 'random' allocation sequences
 
 deathprob <- numeric(nPatients) # this creates an empty vector which we will use to assign death probability for each patient
-deathprob[treatment==1]=death1 # this assigns the probability of death for patients receiving 'treatment 1' to be 'death1'
-deathprob[treatment==2]=death2 # this assigns the probability of death for patients receiving 'treatment 2' to be 'death2'
+deathprob[treatment==0]=death0 # this assigns the probability of death for patients receiving 'treatment 1' to be 'death1'
+deathprob[treatment==1]=death1 # this assigns the probability of death for patients receiving 'treatment 2' to be 'death2'
 death=rbinom(nPatients, 1, deathprob) # this simulates each patient's outcome as a random draw from binomial distribution with probabilities assigned above
 trialdata=data.frame(cbind(pid, treatment, death)) # this creates a data frame with pid, treatment allocation, and death outcome
 
