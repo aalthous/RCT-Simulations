@@ -1,4 +1,3 @@
-# RCT-Simulation-v1
 # This code will mimic a 2-group parallel-arm randomized trial using 1:1 allocation of patients to treatment 1 versus treatment 2
 # For this example, we will use a time to event outcome
 # Patients receiving treatment 1 will have a survival time drawn from Weibull distribution with shape parameter 0.5 and scale parameter 1200
@@ -131,10 +130,10 @@ final_analysis_date-trialdata$recruitdate) #this creates a "deathtime" variable 
 
 coxmodel=coxph(Surv(deathtime, death) ~ treatment, data=trialdata)
 trialnum[i]=i # this simply tells us which simulation each row of our results came from (counting upward from 1 to nSims)
-hr[i]=exp(summary(coxmodel)$coefficients[1]) # this saves the hazard ratio for the treatment effect from the Cox proportional-hazards model
-lcl[i]=exp(summary(coxmodel)$coefficients[1]-1.96*summary(coxmodel)$coefficients[3])  # this saves the lower limit of a 95% CI for the treatment effect HR
-ucl[i]=exp(summary(coxmodel)$coefficients[1]+1.96*summary(coxmodel)$coefficients[3]) # this saves the upper limit of a 95% CI for the treatment effect HR
-pvalue[i]=summary(coxmodel)$coefficients[5] # this saves the p-value for the treatment effect
+hr[i]=round(exp(summary(coxmodel)$coefficients[1]), digits=2) # this saves the hazard ratio for the treatment effect from the Cox proportional-hazards model
+lcl[i]=round(exp(summary(coxmodel)$coefficients[1]-1.96*summary(coxmodel)$coefficients[3]), digits=2)  # this saves the lower limit of a 95% CI for the treatment effect HR
+ucl[i]=round(exp(summary(coxmodel)$coefficients[1]+1.96*summary(coxmodel)$coefficients[3]), digits=2) # this saves the upper limit of a 95% CI for the treatment effect HR
+pvalue[i]=round(summary(coxmodel)$coefficients[5], digits=4) # this saves the p-value for the treatment effect
 success[i]=ifelse(hr[i]<1 & pvalue[i]<0.05, 1, 0) # this creates a flag for whether the trial was a "success" - if effect favored "treatment 2" and p<0.05 for treatment effect
 
 }
