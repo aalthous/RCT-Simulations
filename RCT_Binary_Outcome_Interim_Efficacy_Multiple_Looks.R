@@ -1,10 +1,10 @@
 # Trial Design Parameters - Part 1
 # Here we will specify the basics: maximum total number of patients to enroll and event rate for each treatment arm
 nPatients <- 1000 # here is where you specify the planned max number of patients you want included in each RCT 
-death0 <- 0.4 # here is where you specify the event rate for patients receiving 'treatment 1' in these trials
-death1 <- 0.3 # here is where you specify the event rate for patients receiving 'treatment 2' in these trials
-# I have set this one up to test the power for a treatment that would reduce mortality from 40% in control group (1) to 30% in treatment group (2)
-# If one wants to estimate the "type 1 error" under different interim approaches, simply make 'death1' and 'death2' the same (no treatment effect)
+death0 <- 0.4 # here is where you specify the event rate for patients receiving 'treatment 0' in these trials
+death1 <- 0.3 # here is where you specify the event rate for patients receiving 'treatment 1' in these trials
+# I have set this one up to test the power for a treatment that would reduce mortality from 40% in control group (0) to 30% in treatment group (1)
+# If one wants to estimate the "type 1 error" under different interim approaches, simply make 'death0' and 'death1' the same (no treatment effect)
 
 # Trial Design Parameters - Part 2
 # Here we will define the interim analysis strategy and stopping rules
