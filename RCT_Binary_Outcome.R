@@ -3,7 +3,7 @@
 # For this example, we will use a binary outcome of "death"
 # Patients receiving treatment 1 will have 40% probability of death
 # Patients receiving treatment 2 will have 30% probability of death
-# Analysis will be performed using a logistic regression model 
+# Analysis will be performed using a logistic regression model with no covariate adjustment
 # We will run 1000 simulated RCT's and report the odds ratio, 95% confidence interval, and p-value for each simulated trial
 # The "true" treatment effect for a treatment that reduces probability of outcome from 40% to 30% is about OR = 0.642
 # The power of a trial with N=1000 patients and exactly 1:1 allocation under these assumptions is about 91-92%
@@ -51,10 +51,10 @@ trialdata=data.frame(cbind(pid, treatment, death)) # this creates a data frame w
 
 model <- glm(death ~ treatment, family=binomial(link='logit'), data=trialdata) # this runs a logistic regression model on each trial's simulated data
 trialnum[i]=i # this simply tells us which simulation each row of our results came from (counting upward from 1 to nSims)
-or[i]=exp(summary(model)$coefficients[2]) # this saves the odds ratio for the treatment effect from the logistic regression model
-lcl[i]=exp(summary(model)$coefficients[2] - 1.96 * summary(model)$coefficients[4]) # this saves the lower limit of a 95% CI for the treatment effect OR
-ucl[i]=exp(summary(model)$coefficients[2] + 1.96 * summary(model)$coefficients[4]) # this saves the upper limit of a 95% CI for the treatment effect OR
-pvalue[i]=summary(model)$coefficients[8] # this saves the p-value for the treatment effect
+or[i]=round(exp(summary(model)$coefficients[2]), digits=2) # this saves the odds ratio for the treatment effect from the logistic regression model
+lcl[i]=round(exp(summary(model)$coefficients[2] - 1.96 * summary(model)$coefficients[4]), digits=2) # this saves the lower limit of a 95% CI for the treatment effect OR
+ucl[i]=round(exp(summary(model)$coefficients[2] + 1.96 * summary(model)$coefficients[4]), digits=2) # this saves the upper limit of a 95% CI for the treatment effect OR
+pvalue[i]=round(summary(model)$coefficients[8], digits=4) # this saves the p-value for the treatment effect
 success[i]=ifelse(or[i]<1 & pvalue[i]<0.05, 1, 0) # this creates a flag for whether the trial was a "success" - if effect favored "treatment 2" and p<0.05 for treatment effect
 
 }
