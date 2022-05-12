@@ -1,7 +1,7 @@
-# This code will mimic a 2-group parallel-arm randomized trial using 1:1 allocation of patients to treatment 1 versus treatment 2
+# This code will mimic a 2-group parallel-arm randomized trial using 1:1 allocation of patients to treatment 0 ("control") versus treatment 1 ("treatment")
 # For this example, we will use a binary outcome of "death"
-# Patients receiving treatment 1 will have 40% probability of death
-# Patients receiving treatment 2 will have 30% probability of death
+# Patients receiving treatment 0 will have 40% probability of death
+# Patients receiving treatment 1 will have 30% probability of death
 # Analysis will be performed using a logistic regression model for interim and final analysis
 # We will run 1000 simulated RCT's and report the odds ratio, 95% confidence interval, and p-value for each simulated trial at interim and final analysis
 # The "true" treatment effect for a treatment that reduces probability of outcome from 40% to 30% is about OR = 0.642
@@ -52,7 +52,7 @@ treatment=rep(0:1, nPatients/2) # this creates a vector of "treatment allocation
 # worth noting: this allocation sequence should not be used in a real RCT, but for the purpose of these simulations it will work fine.  
 # There are no real patients or clinicians created in these simulations, and therefore no worry about someone guessing the next treatment assignment.
 # If you prefer that your simulations actually use “randomized” allocation, you can do this instead:
-# treatment=1+rbinom(nPatients, 1, 0.5) # this randomly assigns each new patient to receive treatment 1 or 2 with 50% probability each time
+# treatment=rbinom(nPatients, 1, 0.5) # this randomly assigns each new patient to receive treatment 0 or 1 with 50% probability each time
 # The reason I prefer the first of the two for simulation is that it maintains even allocation in the number of patients receiving each treatment 
 # (of course, with a wee bit more work one can actually create blocked randomization sequence, but I’m trying to keep this thread simple for newbies)
 # (for those interested in going one step further, the "blockrand" package can be used to generate this, may include in future post)
@@ -62,8 +62,8 @@ treatment=rep(0:1, nPatients/2) # this creates a vector of "treatment allocation
 # Constraining to "exactly equal" is close enough in practice to results with blocked randomization that it's my preference
 
 deathprob <- numeric(nPatients) # this creates an empty vector which we will use to assign death probability for each patient
-deathprob[treatment==0]=death0 # this assigns the probability of death for patients receiving 'treatment 1' to be 'death1'
-deathprob[treatment==1]=death1 # this assigns the probability of death for patients receiving 'treatment 2' to be 'death2'
+deathprob[treatment==0]=death0 # this assigns the probability of death for patients receiving 'treatment 0' to be 'death0'
+deathprob[treatment==1]=death1 # this assigns the probability of death for patients receiving 'treatment 1' to be 'death1'
 death=rbinom(nPatients, 1, deathprob) # this simulates each patient's outcome as a random draw from binomial distribution with probabilities assigned above
 trialdata=data.frame(cbind(pid, treatment, death)) # this creates a data frame with pid, treatment allocation, and death outcome
 
