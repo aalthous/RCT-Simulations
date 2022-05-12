@@ -73,17 +73,17 @@ interimdata<- subset(trialdata, pid<=nInterim) # this selects just the patients 
 trialnum[i]=i # this simply tells us which simulation each row of our results came from (counting upward from 1 to nSims)
 
 model1 <- glm(death ~ treatment, family=binomial(link='logit'), data=interimdata) # this runs a logistic regression model on the interim analysis set
-or_interim[i]=exp(summary(model1)$coefficients[2]) # this saves the odds ratio for the treatment effect from the logistic regression model
-lcl_interim[i]=exp(summary(model1)$coefficients[2] - 1.96 * summary(model1)$coefficients[4]) # this saves the lower limit of a 95% CI for the treatment effect OR
-ucl_interim[i]=exp(summary(model1)$coefficients[2] + 1.96 * summary(model1)$coefficients[4]) # this saves the upper limit of a 95% CI for the treatment effect OR
-pvalue_interim[i]=summary(model1)$coefficients[8] # this saves the p-value for the treatment effect at interim analysis
+or_interim[i]=round(exp(summary(model1)$coefficients[2]), digits=2) # this saves the odds ratio for the treatment effect from the logistic regression model
+lcl_interim[i]=round(exp(summary(model1)$coefficients[2] - 1.96 * summary(model1)$coefficients[4]), digits=2) # this saves the lower limit of a 95% CI for the treatment effect OR
+ucl_interim[i]=round(exp(summary(model1)$coefficients[2] + 1.96 * summary(model1)$coefficients[4]), digits=2) # this saves the upper limit of a 95% CI for the treatment effect OR
+pvalue_interim[i]=round(summary(model1)$coefficients[8], digits=4) # this saves the p-value for the treatment effect at interim analysis
 success_interim[i]=ifelse(or_interim[i]<1 & pvalue_interim[i]<interim_efficacy_threshold, 1, 0) # this creates a flag for whether the trial was a "success" - if effect favored "treatment 2" and p<0.05 for treatment effect
 
 model2 <- glm(death ~ treatment, family=binomial(link='logit'), data=trialdata) # this runs a logistic regression model on the full analysis set
-or_final[i]=exp(summary(model2)$coefficients[2]) # this saves the odds ratio for the treatment effect from the logistic regression model
-lcl_final[i]=exp(summary(model2)$coefficients[2] - 1.96 * summary(model2)$coefficients[4]) # this saves the lower limit of a 95% CI for the treatment effect OR
-ucl_final[i]=exp(summary(model2)$coefficients[2] + 1.96 * summary(model2)$coefficients[4]) # this saves the upper limit of a 95% CI for the treatment effect OR
-pvalue_final[i]=summary(model2)$coefficients[8] # this saves the p-value for the treatment effect at final analysis
+or_final[i]=round(exp(summary(model2)$coefficients[2]), digits=2) # this saves the odds ratio for the treatment effect from the logistic regression model
+lcl_final[i]=round(exp(summary(model2)$coefficients[2] - 1.96 * summary(model2)$coefficients[4]), digits=2) # this saves the lower limit of a 95% CI for the treatment effect OR
+ucl_final[i]=round(exp(summary(model2)$coefficients[2] + 1.96 * summary(model2)$coefficients[4]), digits=2) # this saves the upper limit of a 95% CI for the treatment effect OR
+pvalue_final[i]=round(summary(model2)$coefficients[8], digits=4) # this saves the p-value for the treatment effect at final analysis
 success_final[i]=ifelse(or_final[i]<1 & pvalue_final[i]<final_efficacy_threshold, 1, 0) # this creates a flag for whether the trial was a "success" - if effect favored "treatment 2" and p<0.05 for treatment effect
 
 overall_success[i]=ifelse(success_interim[i] == 1, 1, success_final[i])
