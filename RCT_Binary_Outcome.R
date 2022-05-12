@@ -1,7 +1,7 @@
-# This code will mimic a 2-group parallel-arm randomized trial using 1:1 allocation of patients to treatment 1 versus treatment 2
+# This code will mimic a 2-group parallel-arm randomized trial using 1:1 allocation of patients to treatment 0 ("control") versus treatment 1 ("treatment")
 # For this example, we will use a binary outcome of "death"
-# Patients receiving treatment 1 will have 40% probability of death
-# Patients receiving treatment 2 will have 30% probability of death
+# Patients receiving treatment 0 will have 40% probability of death
+# Patients receiving treatment 1 will have 30% probability of death
 # Analysis will be performed using a logistic regression model with no covariate adjustment
 # We will run 1000 simulated RCT's and report the odds ratio, 95% confidence interval, and p-value for each simulated trial
 # The "true" treatment effect for a treatment that reduces probability of outcome from 40% to 30% is about OR = 0.642
@@ -9,8 +9,8 @@
 
 # Trial Design Parameters
 nPatients <- 1000 # here is where you specify the number of patients you want included in each RCT 
-death0 <- 0.4 # here is where you specify the event rate for patients receiving 'treatment 1' in these trials
-death1 <- 0.3 # here is where you specify the event rate for patients receiving 'treatment 2' in these trials
+death0 <- 0.4 # here is where you specify the event rate for patients receiving 'treatment 0' in these trials
+death1 <- 0.3 # here is where you specify the event rate for patients receiving 'treatment 1' in these trials
 
 # Simulation Parameters
 nSims <- 1000 # here is where you specify the number of trials that you want to simulate
@@ -26,12 +26,12 @@ set.seed(1) # this sets the random seed for your results to be reproducible
 for(i in 1:nSims){
 
 pid=seq(1, by=1, len=nPatients) # this creates a sequential list of "pid" from 1 to nPatients which may be useful if you want to perform 'interim analysis' later
-treatment=rep(0:1, nPatients/2) # this creates a vector of "treatment allocations" which is actually just a sequence alternating between 1 and 2
+treatment=rep(0:1, nPatients/2) # this creates a vector of "treatment allocations" which is actually just a sequence alternating between 0 and 1
 
 # worth noting: this allocation sequence should not be used in a real RCT, but for the purpose of these simulations it will work fine.  
 # There are no real patients or clinicians created in these simulations, and therefore no worry about someone guessing the next treatment assignment.
 # If you prefer that your simulations actually use “randomized” allocation, you can do this instead:
-# treatment=1+rbinom(nPatients, 1, 0.5) # this randomly assigns each new patient to receive treatment 1 or 2 with 50% probability each time
+# treatment=rbinom(nPatients, 1, 0.5) # this randomly assigns each new patient to receive treatment 1 or 2 with 50% probability each time
 # The reason I prefer the first of the two for simulation is that it maintains even allocation in the number of patients receiving each treatment 
 # (of course, with a wee bit more work one can actually create blocked randomization sequence, but I’m trying to keep this simple for newbies)
 # (for those interested in going one step further, the "blockrand" package can be used to generate this, may include in future posts)
