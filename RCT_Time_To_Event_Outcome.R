@@ -24,15 +24,15 @@
 set.seed(1)
 library(survival) # Sorry, this time you have to load at least one package; no getting around it
 nPerGroup <- 500 # Number of patients per treatment group
-weibull_shape0 <- 0.5 # Shape parameter for Weibull in treatment group 1
-weibull_shape1 <- 0.5 # Shape parameter for Weibull in treatment group 2
-weibull_scale0 <- 1200 # Scale parameter for Weibull in treatment group 1
-weibull_scale1 <- 2000  # Scale parameter for Weibull in treatment group 2
+weibull_shape0 <- 0.5 # Shape parameter for Weibull in treatment group 0
+weibull_shape1 <- 0.5 # Shape parameter for Weibull in treatment group 1
+weibull_scale0 <- 1200 # Scale parameter for Weibull in treatment group 0
+weibull_scale1 <- 2000  # Scale parameter for Weibull in treatment group 1
 final_analysis_date <- 1800 # Final "analysis date" (for this example, t=1800 means dataset is frozen 5 years after trial begins)
 
 #Create One Sample Trial Dataset
 pid=seq(1, by=1, len=nPerGroup*2) # this creates a sequential list of "pid" from 1 to nPatients which may be useful if you want to perform 'interim analysis' later
-treatment=rep(1:2, nPerGroup) # this creates a vector of "treatment allocations" which is actually just a sequence alternating between 1 and 2
+treatment=rep(0:1, nPerGroup) # this creates a vector of "treatment allocations" which is actually just a sequence alternating between 0 and 1
 recruitdate=floor((pid+1)/2) # create recruitment date; this mimics 2 patients recruited daily (a trial of n=500 per group will reach target in 500 days)
 survivaltime <- numeric(nPerGroup*2) # create empty vector which will hold survival times
 survivaltime[treatment==0] <- rweibull(nPerGroup, weibull_shape0, weibull_scale0) # simulated survival times from Weibull distribution for treatment 0
